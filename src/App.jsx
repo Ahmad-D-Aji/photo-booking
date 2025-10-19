@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Camera, Calendar, Image as ImageIcon, Mail, Phone, ChevronRight } from "lucide-react";
 
-// Simple badge component
+/**
+ * Small pill-shaped label used in the hero.
+ * - We add `text-white` and a subtle translucent background so it stays legible over photos.
+ */
 function Badge({ children }) {
   return (
     <span className="inline-flex items-center rounded-full border border-white/30 px-3 py-1 text-xs font-medium tracking-wide text-white bg-white/10 backdrop-blur-sm">
@@ -10,7 +13,12 @@ function Badge({ children }) {
   );
 }
 
-// Simple button
+/**
+ * Reusable button.
+ * - `variant="primary"` → black filled
+ * - `variant="ghost"` → translucent white (for dark backgrounds)
+ * - If `href` is provided we render an <a>; otherwise a <button>.
+ */
 function Btn({ href, children, variant = "primary" }) {
   const base =
     "inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold transition shadow-sm";
@@ -22,6 +30,7 @@ function Btn({ href, children, variant = "primary" }) {
   const content = (
     <span className={`${base} ${styles}`}>
       {children}
+      {/* Chevron icon at the end for affordance */}
       <ChevronRight className="h-4 w-4" />
     </span>
   );
@@ -35,7 +44,9 @@ function Btn({ href, children, variant = "primary" }) {
   );
 }
 
-// Card
+/**
+ * Simple card for pricing / features.
+ */
 function Card({ title, price, children }) {
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
@@ -48,7 +59,10 @@ function Card({ title, price, children }) {
   );
 }
 
-// Gallery tile
+/**
+ * Portfolio grid tile.
+ * - Uses object-cover + hover scale for a subtle interactive feel.
+ */
 function Tile({ src, alt }) {
   return (
     <div className="overflow-hidden rounded-2xl shadow-sm border">
@@ -57,10 +71,20 @@ function Tile({ src, alt }) {
   );
 }
 
+/**
+ * Main page component
+ * Sections:
+ * 1) Sticky nav
+ * 2) Hero with background photo and CTA
+ * 3) Packages (pricing)
+ * 4) Portfolio (grid)
+ * 5) Booking (Calendly embed + Netlify form)
+ * 6) Footer
+ */
 export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 text-gray-900">
-      {/* NAV */}
+      {/** ================= NAV ================= */}
       <header className="sticky top-0 z-40 w-full border-b bg-white/70 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <a href="#" className="flex items-center gap-2 font-semibold">
@@ -76,8 +100,9 @@ export default function App() {
         </div>
       </header>
 
-      {/* HERO */}
+      {/** ================= HERO ================= */}
       <section className="relative">
+        {/* Background image + gradient overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?q=80&w=1600&auto=format&fit=crop"
@@ -86,12 +111,15 @@ export default function App() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-white" />
         </div>
+
         <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-24 md:grid-cols-2 md:py-32">
+          {/* Left column: copy + CTAs */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Badge>
               <span className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-500" />
               Jakarta • Bali • On-location
             </Badge>
+
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
               Timeless Photography for People & Brands
             </h1>
@@ -102,25 +130,28 @@ export default function App() {
               <Btn href="#book">Book a session</Btn>
               <Btn href="#portfolio" variant="ghost">View portfolio</Btn>
             </div>
+            {/* Quick contact: phone + email */}
             <div className="mt-6 flex items-center gap-4 text-white/80">
               <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> +62 812-3456-7890</div>
               <div className="hidden items-center gap-2 sm:flex"><Mail className="h-4 w-4" /> hello@whitewolfstudio.id</div>
             </div>
           </motion.div>
+
+          {/* Right column: three photo tiles */}
           <motion.div
             className="grid grid-cols-3 gap-4 self-end"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-<Tile src="https://picsum.photos/800/800?random=2" alt="Portrait" />
-<Tile src="https://picsum.photos/800/800?random=3" alt="Couple" />
-<Tile src="https://picsum.photos/800/800?random=4" alt="Product" />
+            <Tile src="https://picsum.photos/800/800?random=2" alt="Portrait" />
+            <Tile src="https://picsum.photos/800/800?random=3" alt="Couple" />
+            <Tile src="https://picsum.photos/800/800?random=4" alt="Product" />
           </motion.div>
         </div>
       </section>
 
-      {/* PACKAGES */}
+      {/** ================= PACKAGES ================= */}
       <section id="packages" className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-2xl font-bold">Packages</h2>
@@ -152,7 +183,7 @@ export default function App() {
         <p className="mt-4 text-sm text-gray-600">* Travel fees may apply outside Jakarta. Custom packages on request.</p>
       </section>
 
-      {/* PORTFOLIO */}
+      {/** ================= PORTFOLIO ================= */}
       <section id="portfolio" className="mx-auto max-w-6xl px-4 py-16">
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -163,28 +194,28 @@ export default function App() {
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
-"https://picsum.photos/800/800?random=11",
-  "https://picsum.photos/800/800?random=12",
-  "https://picsum.photos/800/800?random=13",
-  "https://picsum.photos/800/800?random=14",
-  "https://picsum.photos/800/800?random=15",
-  "https://picsum.photos/800/800?random=16",
-  "https://picsum.photos/800/800?random=17",
-  "https://picsum.photos/800/800?random=18",
-].map((src, i) => (
-  <Tile key={i} src={src} alt={`Portfolio ${i + 1}`} />
-))}
+            "https://picsum.photos/800/800?random=11",
+            "https://picsum.photos/800/800?random=12",
+            "https://picsum.photos/800/800?random=13",
+            "https://picsum.photos/800/800?random=14",
+            "https://picsum.photos/800/800?random=15",
+            "https://picsum.photos/800/800?random=16",
+            "https://picsum.photos/800/800?random=17",
+            "https://picsum.photos/800/800?random=18",
+          ].map((src, i) => (
+            <Tile key={i} src={src} alt={`Portfolio ${i + 1}`} />
+          ))}
         </div>
       </section>
 
-      {/* BOOKING */}
+      {/** ================= BOOKING ================= */}
       <section id="book" className="mx-auto max-w-6xl px-4 py-16">
         <div className="mb-8 flex items-center gap-2">
           <Calendar className="h-5 w-5" />
           <h2 className="text-2xl font-bold">Book a Session</h2>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Calendly embed */}
+          {/* Calendly embed (replace with your username) */}
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <div className="h-[600px] w-full overflow-hidden rounded-xl">
               <iframe
@@ -195,7 +226,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Netlify form */}
+          {/* Netlify Forms markup (works when deployed on Netlify) */}
           <form
             name="booking"
             method="POST"
@@ -204,10 +235,14 @@ export default function App() {
             className="rounded-2xl border bg-white p-6 shadow-sm"
             action="/thank-you.html"
           >
+            {/* Required hidden input so Netlify registers the form */}
             <input type="hidden" name="form-name" value="booking" />
+            {/* Honeypot field to reduce spam */}
             <p className="hidden">
               <label>Don’t fill this out: <input name="bot-field" /></label>
             </p>
+
+            {/* Two-column basic details */}
             <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2">
               <div>
                 <label className="text-sm font-medium">Full name</label>
@@ -226,6 +261,8 @@ export default function App() {
                 <input name="date" type="date" required className="mt-1 w-full rounded-xl border px-3 py-2" />
               </div>
             </div>
+
+            {/* Package selector */}
             <div className="mb-3">
               <label className="text-sm font-medium">Package</label>
               <select name="package" required className="mt-1 w-full rounded-xl border px-3 py-2">
@@ -236,10 +273,14 @@ export default function App() {
                 <option>Event (Full-day)</option>
               </select>
             </div>
+
+            {/* Notes */}
             <div className="mb-4">
               <label className="text-sm font-medium">Notes / location</label>
               <textarea name="message" rows={4} className="mt-1 w-full rounded-xl border px-3 py-2" />
             </div>
+
+            {/* Submit */}
             <div className="flex items-center gap-3">
               <button type="submit" className="rounded-2xl bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm">
                 Send request
@@ -250,7 +291,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/** ================= FOOTER ================= */}
       <footer id="contact" className="border-t bg-white">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-10 md:grid-cols-3">
           <div>
