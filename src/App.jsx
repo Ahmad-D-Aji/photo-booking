@@ -312,7 +312,7 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <div className="border-t py-6 text-center text-xs text-gray-500">© {new Date().getFullYear()} White Wolf Studio. All rights reserved.</div>
+        <div className="border-t py-6 text-center text-xs text-gray-500">© {new Date().getFullYear()} White Wolf Studio X AjiDev X IBM Granite. All rights reserved.</div>
       </footer>
     </div>
   );
