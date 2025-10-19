@@ -189,7 +189,7 @@ export default function App() {
             <div className="h-[600px] w-full overflow-hidden rounded-xl">
               <iframe
                 title="Calendly"
-                src="https://calendly.com/your-username/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+                src="https://calendly.com/dewantoaji45/30min?hide_event_type_details=1&hide_gdpr_banner=1"
                 className="h-full w-full"
               />
             </div>
