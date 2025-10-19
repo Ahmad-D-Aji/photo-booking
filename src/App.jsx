@@ -233,7 +233,7 @@ export default function App() {
             data-netlify="true"
             data-netlify-honeypot="bot-field"
             className="rounded-2xl border bg-white p-6 shadow-sm"
-            action="/thank-you.html"
+            action="/thank-you"
           >
             {/* Required hidden input so Netlify registers the form */}
             <input type="hidden" name="form-name" value="booking" />
@@ -285,7 +285,7 @@ export default function App() {
               <button type="submit" className="rounded-2xl bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm">
                 Send request
               </button>
-              <span className="text-xs text-gray-500">You’ll get an email confirmation.</span>
+              <span className="text-xs text-gray-500">You’ll get an email confirmation ASAP. / We only use your info to confirm your booking.</span>
             </div>
           </form>
         </div>
