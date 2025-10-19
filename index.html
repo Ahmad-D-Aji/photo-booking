@@ -9,5 +9,24 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Netlify Forms: hidden static registration for SPA -->
+<form name="booking" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="booking" />
+  <p><label>Don’t fill this out: <input name="bot-field" /></label></p>
+
+  <!-- Include at least the same fields as your live form -->
+  <input name="name" />
+  <input name="email" type="email" />
+  <input name="phone" />
+  <input name="date" type="date" />
+  <select name="package">
+    <option>Portrait (1 hour)</option>
+    <option>Couple (2 hours)</option>
+    <option>Event (Half-day)</option>
+    <option>Event (Full-day)</option>
+  </select>
+  <textarea name="message"></textarea>
+</form>
+
   </body>
 </html>
