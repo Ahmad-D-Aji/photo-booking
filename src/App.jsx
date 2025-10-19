@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Camera, Calendar, Image as ImageIcon, Mail, Phone, ChevronRight } from "lucide-react";
 
@@ -82,6 +83,8 @@ function Tile({ src, alt }) {
  * 6) Footer
  */
 export default function App() {
+  // Toggle between "instant" (Calendly) and "request" (Netlify form)
+  const [mode, setMode] = useState("instant");
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 text-gray-900">
       {/** ================= NAV ================= */}
@@ -210,12 +213,42 @@ export default function App() {
 
       {/** ================= BOOKING ================= */}
       <section id="book" className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-center gap-2">
+        {/* Section header */}
+        <div className="mb-6 flex items-center gap-2">
           <Calendar className="h-5 w-5" />
           <h2 className="text-2xl font-bold">Book a Session</h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Calendly embed (replace with your username) */}
+
+        {/* Toggle: make the two paths obvious */}
+        <div className="mb-8 inline-flex rounded-2xl border bg-white p-1 shadow-sm">
+          <button
+            type="button"
+            onClick={() => setMode("instant")}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold ${mode === "instant" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+            aria-pressed={mode === "instant"}
+          >
+            <Calendar className="h-4 w-4" /> Instant booking
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("request")}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold ${mode === "request" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+            aria-pressed={mode === "request"}
+          >
+            <Mail className="h-4 w-4" /> Request a quote
+          </button>
+        </div>
+
+        {/* Helper text describing the difference */}
+        <p className="mb-6 text-sm text-gray-600">
+          {mode === "instant"
+            ? "Pick an available time now and get immediate confirmation via Calendly."
+            : "Send us details about your shoot—date, package, and notes. We'll confirm availability and pricing by email."}
+        </p>
+
+        {/* Content panes */}
+        {mode === "instant" ? (
+          // ===== Calendly path =====
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <div className="h-[600px] w-full overflow-hidden rounded-xl">
               <iframe
@@ -225,8 +258,8 @@ export default function App() {
               />
             </div>
           </div>
-
-          {/* Netlify Forms markup (works when deployed on Netlify) */}
+        ) : (
+          // ===== Netlify Form path =====
           <form
             name="booking"
             method="POST"
@@ -234,6 +267,7 @@ export default function App() {
             data-netlify-honeypot="bot-field"
             className="rounded-2xl border bg-white p-6 shadow-sm"
             action="/thank-you"
+            aria-label="Booking request form"
           >
             {/* Required hidden input so Netlify registers the form */}
             <input type="hidden" name="form-name" value="booking" />
@@ -245,27 +279,27 @@ export default function App() {
             {/* Two-column basic details */}
             <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2">
               <div>
-                <label className="text-sm font-medium">Full name</label>
-                <input name="name" required className="mt-1 w-full rounded-xl border px-3 py-2" />
+                <label className="text-sm font-medium" htmlFor="name">Full name</label>
+                <input id="name" name="name" required className="mt-1 w-full rounded-xl border px-3 py-2" />
               </div>
               <div>
-                <label className="text-sm font-medium">Email</label>
-                <input name="email" type="email" required className="mt-1 w-full rounded-xl border px-3 py-2" />
+                <label className="text-sm font-medium" htmlFor="email">Email</label>
+                <input id="email" name="email" type="email" required className="mt-1 w-full rounded-xl border px-3 py-2" />
               </div>
               <div>
-                <label className="text-sm font-medium">Phone/WA</label>
-                <input name="phone" required className="mt-1 w-full rounded-xl border px-3 py-2" />
+                <label className="text-sm font-medium" htmlFor="phone">Phone/WA</label>
+                <input id="phone" name="phone" required className="mt-1 w-full rounded-xl border px-3 py-2" />
               </div>
               <div>
-                <label className="text-sm font-medium">Preferred date</label>
-                <input name="date" type="date" required className="mt-1 w-full rounded-xl border px-3 py-2" />
+                <label className="text-sm font-medium" htmlFor="date">Preferred date</label>
+                <input id="date" name="date" type="date" required className="mt-1 w-full rounded-xl border px-3 py-2" />
               </div>
             </div>
 
             {/* Package selector */}
             <div className="mb-3">
-              <label className="text-sm font-medium">Package</label>
-              <select name="package" required className="mt-1 w-full rounded-xl border px-3 py-2">
+              <label className="text-sm font-medium" htmlFor="package">Package</label>
+              <select id="package" name="package" required className="mt-1 w-full rounded-xl border px-3 py-2">
                 <option value="">— choose —</option>
                 <option>Portrait (1 hour)</option>
                 <option>Couple (2 hours)</option>
@@ -276,8 +310,8 @@ export default function App() {
 
             {/* Notes */}
             <div className="mb-4">
-              <label className="text-sm font-medium">Notes / location</label>
-              <textarea name="message" rows={4} className="mt-1 w-full rounded-xl border px-3 py-2" />
+              <label className="text-sm font-medium" htmlFor="message">Notes / location</label>
+              <textarea id="message" name="message" rows={4} className="mt-1 w-full rounded-xl border px-3 py-2" />
             </div>
 
             {/* Submit */}
@@ -285,12 +319,12 @@ export default function App() {
               <button type="submit" className="rounded-2xl bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm">
                 Send request
               </button>
-              <span className="text-xs text-gray-500">You’ll get an email confirmation ASAP. / We only use your info to confirm your booking.</span>
+              <span className="text-xs text-gray-500">We’ll reply by email to confirm availability.</span>
             </div>
           </form>
-        </div>
+        )}
       </section>
-
+      
       {/** ================= FOOTER ================= */}
       <footer id="contact" className="border-t bg-white">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-10 md:grid-cols-3">
